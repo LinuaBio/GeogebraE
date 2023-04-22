@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="/widgets/GeogebraE/index.js"></script>
+    <link rel="stylesheet" type="text/css" href="index.css">
+    <title>GeogebraE</title>
+
+    <!-- 离线版本👇
+    使用这个版本，你需要下载: 
+        https://download.geogebra.org/installers/5.0/geogebra-math-apps-bundle-5-0-772-0.zip
+    并且解压放在GeogebraE根目录，其大小是97MB-->
+    <!-- <script src="/widgets/GeogebraE/Geogebra/deployggb.js"></script> -->
+
+    <!-- 在线版本👇 -->
+    <script src="/widgets/GeogebraE/deployggb.js"></script>
+</head>
+<body id="GeogebraE">
+    <div>
+        <div id="menuBar">
+            <div class="dropdown">
+                <div class="menuBarItem">Model</div>
+                <div class="dropdown-content">
+                    <div class="dropdown-item" onclick="initGE('Graphing')">Graphing</div>
+                    <div class="dropdown-item" onclick="initGE('Geometry')">Geometry</div>
+                    <div class="dropdown-item" onclick="initGE('3D')">3D</div>
+                    <div class="dropdown-item" onclick="initGE('Classic')">Classic</div>
+                    <div class="dropdown-item" onclick="initGE('Suite')">Suite</div>
+                    <div class="dropdown-item" onclick="initGE('Evaluator')">Evaluator</div>
+                    <div class="dropdown-item" onclick="initGE('Scientific')">Scientific</div>
+                    <div class="dropdown-item" onclick="initGE('notes')">notes</div>
+                </div>
+            </div>
+            <div class="menuBarItem" onclick="resize()">Resize</div>
+            <div class="menuBarItem" onclick="save()">Save</div>
+            <div class="menuBarItem" onclick="load()">Load</div>
+        </div>
+        <div id="ggb-element"></div> 
+    </div>
+</body>
+</html>
