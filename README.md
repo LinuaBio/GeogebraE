@@ -5,6 +5,7 @@ GeogebraE是Geogebra的思源嵌入式程序.
 
 # License
 本程序遵循geogebra使用的开源协议
+
 You are free to copy, distribute and transmit GeoGebra for non-commercial purposes. For details see https://www.geogebra.org/license
 
 ## 0.0.1
