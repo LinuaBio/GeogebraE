@@ -18,7 +18,11 @@ GeogebraE是Geogebra的思源嵌入式程序.
 
 https://download.geogebra.org/installers/5.0/geogebra-math-apps-bundle-5-0-772-0.zip
 
-并且解压放在"你的笔记空间/data/widgets/GeogebraE/"目录，其大小是97MB
+并且解压放在"你的笔记空间/data/widgets/GeogebraE/"目录, 其大小是97MB
+
+在该目录下找到"index.html", 并按照文件内的提示修改文件
+
+重新加载插件
 
 # License 😶‍🌫️
 
