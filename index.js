@@ -37,7 +37,7 @@ function load() {
 
 function resize() {
     var GE = document.getElementById("GeogebraE")
-    ggbApplet.setSize(GE.clientWidth, GE.clientHeight-35)
+    ggbApplet.setSize(GE.clientWidth-2, GE.clientHeight-35)
 }
 
 function initGE(model) {
@@ -45,7 +45,7 @@ function initGE(model) {
     var GE = document.getElementById("GeogebraE")
     var params = {
         "appName": model, 
-        "width": GE.clientWidth, 
+        "width": GE.clientWidth-2, 
         "height": GE.clientHeight-35, 
         "showToolBar": true, 
         "showAlgebraInput": true, 
