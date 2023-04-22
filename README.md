@@ -8,9 +8,11 @@
 ![version](https://img.shields.io/github/v/release/LinuaBio/GeogebraE.svg?style=flat-square)
 ![](https://img.shields.io/badge/license-GPL-blue.svg?style=popout-square)
 
-GeogebraE是Geogebra的思源嵌入式程序.
+GeogebraE是Geogebra的思源嵌入式程序. 
 
 参考[Apps Embedding](https://wiki.geogebra.org/en/Reference:GeoGebra_Apps_Embedding)
+
+反馈地址: https://github.com/LinuaBio/GeogebraE/issues
 
 # 离线版本👇
 
