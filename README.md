@@ -2,6 +2,8 @@
 
 **使用 GeoGebra 制作**
 
+**Made with GeoGebra**
+
 [![](https://img.shields.io/badge/By-Geogebra-blue)](https://www.geogebra.org)
 
 
