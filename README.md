@@ -35,5 +35,8 @@ https://download.geogebra.org/installers/5.0/geogebra-math-apps-bundle-5-0-772-0
 
 You are free to copy, distribute and transmit GeoGebra for non-commercial purposes. For details see https://www.geogebra.org/license
 
+# v0.0.2
+修复了单个笔记使用多个GeogebraE无法保存问题
+
 # v0.0.1
 简单的将Geogebra嵌入到思源挂件中
