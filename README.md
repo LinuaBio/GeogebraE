@@ -1,10 +1,9 @@
-# GeogebraE
-
-GeogebraE: Geogebra Embedding
-
-![](https://github.com/LinuaBio/GeogebraE/blob/main/preview.png)
+# GeogebraE: Geogebra Embedding
 
 **使用 GeoGebra 制作**
+
+[![](https://img.shields.io/badge/By-Geogebra-blue)](https://www.geogebra.org)
+
 
 GeogebraE是Geogebra的思源嵌入式程序.
 
@@ -23,8 +22,8 @@ https://download.geogebra.org/installers/5.0/geogebra-math-apps-bundle-5-0-772-0
 
 # License
 
-本程序遵循Geogebra使用的非商业开源协议 GPL
-[![](https://img.shields.io/badge/By-Geogebra-blue)](https://www.geogebra.org)
+本程序遵循Geogebra使用的非商业开源协议 [![](https://img.shields.io/badge/By-GPT-blue)](https://www.gnu.org/licenses/gpl-3.0.html)
+
 
 ### GeoGebra License information:
 
