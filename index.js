@@ -37,11 +37,30 @@ solveGet(getData('/api/storage/getLocalStorage')).then(r=>{
         initGE(object[object_index].model)
 
         setTimeout(() => {
-            ggbApplet.setBase64(object[object_index].base64)
+            startLoad(0, 3)
             // console.clear()
-        }, 1000);
+        }, 100);
     }
 })
+
+function startLoad(numTmp_startLoad, maxLoop) {
+    setTimeout(() => {
+        try {
+            ggbApplet.setBase64(object[object_index].base64)
+        } catch (error) {
+            console.log("numTmp_startLoad: ",numTmp_startLoad)
+            numTmp_startLoad++
+            if(numTmp_startLoad < maxLoop){
+                startLoad(numTmp_startLoad, maxLoop)
+            }else{
+                getData('/api/notification/pushMsg', {
+                    msg: "加载错误,请手动加载",
+                    timeout: 3000
+                })
+            }
+        }
+    }, 1000);
+}
 
 function Clean() {
     getData('/api/storage/setLocalStorageVal', {
@@ -85,6 +104,7 @@ function initGE(model) {
         "showMenuBar": true 
     };
     var applet = new GGBApplet(params, '5.0');
+    //applet.setHTML5Codebase('/widgets/GeogebraE/GeoGebra/HTML5/5.0/web3d/');
     applet.inject('ggb-element');
 }
 
