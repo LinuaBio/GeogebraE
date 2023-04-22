@@ -1,5 +1,9 @@
 # GeogebraE
 
+GeogebraE: Geogebra Embedding
+
+![](https://github.com/LinuaBio/GeogebraE/blob/main/preview.png)
+
 **使用 GeoGebra 制作**
 
 GeogebraE是Geogebra的思源嵌入式程序.
@@ -15,12 +19,14 @@ GeogebraE是Geogebra的思源嵌入式程序.
 
 https://download.geogebra.org/installers/5.0/geogebra-math-apps-bundle-5-0-772-0.zip
 
-并且解压放在GeogebraE根目录，其大小是97MB
+并且解压放在"你的笔记空间/data/widgets/GeogebraE/"目录，其大小是97MB
 
 # License
 
 本程序遵循Geogebra使用的非商业开源协议 GPL
 [![](https://img.shields.io/badge/By-Geogebra-blue)](https://www.geogebra.org)
+
+### GeoGebra License information:
 
 You are free to copy, distribute and transmit GeoGebra for non-commercial purposes. For details see https://www.geogebra.org/license
 
