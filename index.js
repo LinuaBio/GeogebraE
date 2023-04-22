@@ -1,38 +1,70 @@
 let widgetBlockEle = window.frameElement.parentElement.parentElement;
 let id = widgetBlockEle.getAttribute('data-node-id');
-let modleTmp
-let LocalStorage
+let modelTmp = 'Graphing'
+let base64Tmp = ''
+let object
+let object_index = -1
 
 solveGet(getData('/api/storage/getLocalStorage')).then(r=>{
-    LocalStorage = r
-    if(r == null || r.GeogebraE[0] == null){
+    object = r.GeogebraE
+    // console.log(object)
+    if(object == null){
+        // object = [{key: id, model: modelTmp, base64: base64Tmp}]
         solveGet(getData('/api/storage/setLocalStorageVal', {
             app: "",
             key: "GeogebraE",
-            val: "notes"
+            val: object
         }))
-        initGE("notes")
+        object_index = 0
+        initGE("Graphing")
     }else{
-        initGE(r.GeogebraE[0])
+        // console.log(object[object_index], object_index)
+        for (let i = 0; i < object.length; i++) {
+            // console.log(object[i].key)
+            if(object[i].key == id){
+                object_index = i
+                console.log("isID: ", object_index)
+            }
+        }
+
+        if(object_index == -1){
+            // console.log("isNotID: ", object_index)
+            object.push({key: id,model: modelTmp, base64: base64Tmp})
+            object_index = object.length-1
+        }
+
+        // console.log(object[object_index], object_index)
+        initGE(object[object_index].model)
+
         setTimeout(() => {
-            ggbApplet.setBase64(r.GeogebraE[1])
-            console.clear()
+            ggbApplet.setBase64(object[object_index].base64)
+            // console.clear()
         }, 1000);
     }
 })
 
-function save() {
-    base64Tmp = ggbApplet.getBase64();
-    LocalStorage.GeogebraE[1] = base64Tmp
+function Clean() {
     getData('/api/storage/setLocalStorageVal', {
         app: "",
         key: "GeogebraE",
-        val: [modleTmp, base64Tmp]
+        val: []
     })
 }
 
+function save() {
+    // console.log("Save-modelTmp: ",modelTmp)
+    object[object_index].model = modelTmp
+    object[object_index].base64 = ggbApplet.getBase64()
+    getData('/api/storage/setLocalStorageVal', {
+        app: "",
+        key: "GeogebraE",
+        val: object
+    })
+    // console.log("Save: ",object)
+}
+
 function load() {
-    ggbApplet.setBase64(LocalStorage.GeogebraE[1])
+    ggbApplet.setBase64(object[object_index].base64)
 }
 
 function resize() {
@@ -41,7 +73,8 @@ function resize() {
 }
 
 function initGE(model) {
-    modleTmp = model
+    modelTmp = model
+    // console.log("initGE: " ,modelTmp)
     var GE = document.getElementById("GeogebraE")
     var params = {
         "appName": model, 
@@ -55,6 +88,7 @@ function initGE(model) {
     applet.inject('ggb-element');
 }
 
+// Get Data
 async function solveGet(response) {
     let r = await response
     return r && r.code === 0 ? r.data : null
@@ -72,7 +106,7 @@ async function getData(url, data) {
             resData = response.json()
             return
         }
-        let error_msg=`API Errer:(${url})${response.status} ${response.statusText}`
+        let error_msg=`API Error:(${url})${response.status} ${response.statusText}`
         console.error(error_msg)
     })
     return resData
