@@ -4,36 +4,42 @@
 
 **✨使用 GeoGebra 制作** | **🎉Made with GeoGebra** | **⚗️By BioLinua**
 
-[![](https://img.shields.io/badge/By-Geogebra-green)](https://www.geogebra.org)
+![](https://img.shields.io/badge/By-Geogebra-gree)
 ![version](https://img.shields.io/github/v/release/LinuaBio/GeogebraE.svg?style=flat-square)
 ![](https://img.shields.io/badge/license-GPL-blue.svg?style=popout-square)
+[![](https://img.shields.io/badge/Gitee-red)](https://gitee.com/biolinua/GeogebraE)
 
 GeogebraE是Geogebra的思源嵌入式程序. 
 
-参考[Apps Embedding](https://wiki.geogebra.org/en/Reference:GeoGebra_Apps_Embedding)
+GeoGebra官方网站: https://www.geogebra.org
 
-反馈地址: https://github.com/LinuaBio/GeogebraE/issues
-
-注意，挂件商店可能不会及时更新，如果你发现Bug，可以查看本项目的GitHub仓库，是否有新版本
-
-版本号在GitHub右边的'Releases'中显示
+参考: [Apps Embedding](https://wiki.geogebra.org/en/Reference:GeoGebra_Apps_Embedding)
+| 反馈地址: [GitHub-GeoGebraE](https://github.com/LinuaBio/GeogebraE/issues)
+| 反馈地址: [Gitee-GeoGebraE](https://gitee.com/biolinua/GeogebraE/issues)
 
 # 预览&功能介绍-v0.0.2
-预览图是Github
+
 <style>
-    #img{
-        flex-direction: row;
-        display: flex !important;
-        height: 200px;
-        overflow-x: auto;
-    }
+#GeogebraE_imgBody{
+    flex-direction: row;
+    display: flex !important;
+    height: 350px;
+    width: 100%;
+    overflow-y: hidden;
+    overflow-x: auto;
+}
+.GeogebraE_imgItem{
+    width: 575px;
+    height: 100%;
+    flex: none;
+}
 </style>
-<div  id="img">
-    <image src="./assets/preview_001.png"/>
-    <image src="./assets/preview_002.png"/>
-    <image src="./assets/preview_003.png"/>
-    <image src="./assets/preview_004.png"/>
-    <image src="./assets/preview_005.png"/>
+<div id="GeogebraE_imgBody">
+    <div class="GeogebraE_imgItem" style="background: url('https://gitee.com/biolinua/GeogebraE/raw/main/assets/preview_001.png');background-size: cover"></div>
+    <div class="GeogebraE_imgItem" style="background: url('https://gitee.com/biolinua/GeogebraE/raw/main/assets/preview_002.png');background-size: cover"></div>
+    <div class="GeogebraE_imgItem" style="background: url('https://gitee.com/biolinua/GeogebraE/raw/main/assets/preview_003.png');background-size: cover"></div>
+    <div class="GeogebraE_imgItem" style="background: url('https://gitee.com/biolinua/GeogebraE/raw/main/assets/preview_004.png');background-size: cover"></div>
+    <div class="GeogebraE_imgItem" style="background: url('https://gitee.com/biolinua/GeogebraE/raw/main/assets/preview_005.png');background-size: cover"></div>
 </div>
 
 ### 功能键:
@@ -48,11 +54,11 @@ GeogebraE是Geogebra的思源嵌入式程序.
 
 https://download.geogebra.org/installers/5.0/geogebra-math-apps-bundle-5-0-772-0.zip
 
-并且解压放在"你的笔记空间/data/widgets/GeogebraE/"目录, 其大小是97MB
+并将压缩包内的“GeoGebra”文件夹解压，放在"你的笔记空间/data/widgets/GeogebraE/"目录, 其大小是97MB
 
-在该目录下找到"index.html", 并按照文件内的提示修改文件
+在"你的笔记空间/data/widgets/GeogebraE/"下找到"index.html", 并按照文件内的提示修改文件
 
-重新加载插件
+最后，重新加载插件
 
 # License 😶‍🌫️
 
