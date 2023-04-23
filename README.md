@@ -14,6 +14,10 @@ GeogebraE是Geogebra的思源嵌入式程序.
 
 反馈地址: https://github.com/LinuaBio/GeogebraE/issues
 
+注意，挂件商店可能不会及时更新，如果你发现Bug，可以查看本项目的GitHub仓库，是否有新版本
+
+版本号在GitHub右边的'Releases'中显示
+
 # 离线版本👇
 
 使用这个版本，你需要下载: 
