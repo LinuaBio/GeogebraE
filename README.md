@@ -76,15 +76,15 @@ You are free to copy, distribute and transmit GeoGebra for non-commercial purpos
 你可能因为网络原因无法加载, 你可以选择使用离线版本, 或者重新启动软件
 
 # v0.0.3
-- 加入了对与在线使用的网络请求结果显示
-- 更换了数据存储方案
-- 移除了“Evaluator”模式
-- 移除了“Load”按钮
+- 加入对于在线使用的网络请求结果显示
+- 更换数据存储方案
+- 移除“Evaluator”模式
+- 移除“Load”按钮
 
 # v0.0.2
-- 修复单个笔记使用多个GeogebraE无法保存问题
-- 修复了离线版本不能使用问题
-- 更换了preview图
+- 修复单个笔记使用多个GeogebraE无法保存的问题
+- 修复离线版本不能使用的问题
+- 更换preview图
 
 # v0.0.1
-简单的将Geogebra嵌入到思源挂件中
+- 简单的将Geogebra嵌入到思源挂件中
