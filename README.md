@@ -17,7 +17,7 @@ GeoGebra官方网站: https://www.geogebra.org
 | 反馈地址: [GitHub-GeoGebraE](https://github.com/LinuaBio/GeogebraE/issues)
 | 反馈地址: [Gitee-GeoGebraE](https://gitee.com/biolinua/GeogebraE/issues)
 
-# 预览&功能介绍-v0.0.2
+# 预览&功能介绍
 
 <style>
 #GeogebraE_imgBody{
@@ -41,6 +41,8 @@ GeoGebra官方网站: https://www.geogebra.org
     <div class="GeogebraE_imgItem" style="background: url('https://gitee.com/biolinua/GeogebraE/raw/main/assets/preview_004.png');background-size: cover"></div>
     <div class="GeogebraE_imgItem" style="background: url('https://gitee.com/biolinua/GeogebraE/raw/main/assets/preview_005.png');background-size: cover"></div>
 </div>
+
+注: 图片是v0.0.2的界面，由于与v0.0.3没太大区别，故沿用v0.0.2的预览图
 
 ### 功能键:
 1. Model: 切换模式
