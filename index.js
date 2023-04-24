@@ -1,104 +1,118 @@
-let widgetBlockEle = window.frameElement.parentElement.parentElement;
+let GEframeElement = window.frameElement
+let widgetBlockEle = GEframeElement.parentElement.parentElement;
 let id = widgetBlockEle.getAttribute('data-node-id');
-let modelTmp = 'Graphing'
-let base64Tmp = ''
-let object
-let object_index = -1
-
-solveGet(getData('/api/storage/getLocalStorage')).then(r=>{
-    object = r.GeogebraE
-    // console.log(object)
-    if(object == null){
-        // object = [{key: id, model: modelTmp, base64: base64Tmp}]
-        solveGet(getData('/api/storage/setLocalStorageVal', {
-            app: "",
-            key: "GeogebraE",
-            val: object
-        }))
-        object_index = 0
-        initGE("Graphing")
-    }else{
-        // console.log(object[object_index], object_index)
-        for (let i = 0; i < object.length; i++) {
-            // console.log(object[i].key)
-            if(object[i].key == id){
-                object_index = i
-                console.log("isID: ", object_index)
+let object = { model: 'GeogebraE',base64: '' }
+let webGet = 0
+var observer = new PerformanceObserver(perf_observer);
+function LoadPlugin() {
+    observer.observe({entryTypes: ["resource"]});
+    init()
+}
+function perf_observer(list) {
+    var requests = getNetworkRequests(list.getEntriesByType('resource'));
+    printRequest(requests);
+}
+function getNetworkRequests(
+    entries = performance.getEntriesByType('resource'),
+    type = ['script', 'xmlhttprequest']) {
+    return entries.filter(entry =>{
+        return type. indexOf(entry.initiatorType)>-1;
+    })
+}
+function printRequest(requests) {
+    requests.map(request  => {
+        if(request.name.indexOf("www.geogebra.org") != -1){
+            webGet++
+            document.getElementById("CoverGE_inf").innerHTML ='GeoGebraE : ' + 10*webGet + "%";
+            if(webGet == 8){
+                observer.observe({ entryTypes: ["resource"] });
+                document.getElementById("CoverGE_body").style.display = 'none';
+                ggbApplet.setBase64(object.base64)
             }
         }
-
-        if(object_index == -1){
-            // console.log("isNotID: ", object_index)
-            object.push({key: id,model: modelTmp, base64: base64Tmp})
-            object_index = object.length-1
+    })
+}
+function init() {
+    solveGet(request('/api/attr/getBlockAttrs', {id:id})).then(r=>{
+        if(r['custom-GeogebraE-model'] == null){
+            request('/api/attr/setBlockAttrs', {id,
+                attrs: {
+                    "custom-GeogebraE-model": object.model,
+                    "custom-GeogebraE-base64": object.base64,
+                }
+            })
+        }else{
+            object.model = r['custom-GeogebraE-model']
+            object.base64 = r['custom-GeogebraE-base64']
         }
-
-        // console.log(object[object_index], object_index)
-        initGE(object[object_index].model)
-
-        setTimeout(() => {
-            startLoad(0, 3)
-            // console.clear()
-        }, 100);
-    }
-})
-
-function startLoad(numTmp_startLoad, maxLoop) {
-    setTimeout(() => {
-        try {
-            ggbApplet.setBase64(object[object_index].base64)
-        } catch (error) {
-            console.log("numTmp_startLoad: ",numTmp_startLoad)
-            numTmp_startLoad++
-            if(numTmp_startLoad < maxLoop){
-                startLoad(numTmp_startLoad, maxLoop)
+        RenderingGE(object.model)
+    })
+}
+function save() {
+    object.base64 = ggbApplet.getBase64()
+    request('/api/attr/setBlockAttrs', {id,
+        attrs: {
+            "custom-GeogebraE-model": object.model,
+            "custom-GeogebraE-base64": object.base64,
+        }
+    })
+    request('/api/notification/pushMsg', {
+        msg: "保存成功",
+        timeout: 2000
+    })
+}
+function loadFromV2() {
+    solveGet(request('/api/storage/getLocalStorage')).then(r=>{
+        var object_index = -1
+        var objectTmp = r.GeogebraE
+        if(objectTmp == null){
+            request('/api/notification/pushMsg', {
+                msg: "你没有来自版本0.0.2的数据",
+                timeout: 3000
+            })
+        }else{
+            for (let i = 0; i < objectTmp.length; i++) {
+                if(objectTmp[i].key == id){
+                    object_index = i
+                }
+            }
+            if(object_index == -1){
+                request('/api/notification/pushMsg', {
+                    msg: "你没有来自版本0.0.2的数据",
+                    timeout: 3000
+                })
             }else{
-                getData('/api/notification/pushMsg', {
-                    msg: "加载错误,请手动加载",
+                object.base64 = objectTmp[object_index].base64
+                object.model = objectTmp[object_index].model
+                RenderingGE(object.model)
+                ggbApplet.setBase64(object.base64)
+                request('/api/notification/pushMsg', {
+                    msg: "加载成功，并更新为v0.0.3",
                     timeout: 3000
                 })
             }
+            request('/api/storage/removeLocalStorageVals', {
+                app: "",
+                keys: ["GeogebraE"],
+            })
         }
-    }, 1000);
-}
-
-function Clean() {
-    getData('/api/storage/setLocalStorageVal', {
-        app: "",
-        key: "GeogebraE",
-        val: []
     })
 }
-
-function save() {
-    // console.log("Save-modelTmp: ",modelTmp)
-    object[object_index].model = modelTmp
-    object[object_index].base64 = ggbApplet.getBase64()
-    getData('/api/storage/setLocalStorageVal', {
-        app: "",
-        key: "GeogebraE",
-        val: object
-    })
-    // console.log("Save: ",object)
-}
-
-function load() {
-    ggbApplet.setBase64(object[object_index].base64)
-}
-
+// function load() {
+//     ggbApplet.setBase64(object.base64)
+// }
 function resize() {
-    var GE = document.getElementById("GeogebraE")
-    ggbApplet.setSize(GE.clientWidth-2, GE.clientHeight-35)
+    var GE = document.getElementById("ggb-element")
+    ggbApplet.setSize(GEframeElement.clientWidth, GEframeElement.clientHeight-35)
+    GE.style.height = GEframeElement.clientHeight-35
+    GE.style.width = GEframeElement.clientWidth
 }
-
-function initGE(model) {
-    modelTmp = model
-    // console.log("initGE: " ,modelTmp)
-    var GE = document.getElementById("GeogebraE")
+function RenderingGE(model) {
+    object.model = model
     var params = {
         "appName": model, 
-        "width": GE.clientWidth-2, 
-        "height": GE.clientHeight-35, 
+        "width": GEframeElement.clientWidth, 
+        "height": GEframeElement.clientHeight-35, 
         "showToolBar": true, 
         "showAlgebraInput": true, 
         "showMenuBar": true 
@@ -107,27 +121,20 @@ function initGE(model) {
     //applet.setHTML5Codebase('/widgets/GeogebraE/GeoGebra/HTML5/5.0/web3d/');
     applet.inject('ggb-element');
 }
-
-// Get Data
 async function solveGet(response) {
     let r = await response
     return r && r.code === 0 ? r.data : null
 }
-async function getData(url, data) {
-    let resData = null
-    await fetch(url, {
+async function request(url, data) {
+    return fetch(url, {
         body: JSON.stringify(data),
         method: 'POST',
         headers: {
-            Authorization: `Token ''`,
+            Authorization: `Token ' '`,
         }
-    }).then(function (response) {
-        if(response.ok){
-            resData = response.json()
-            return
-        }
-        let error_msg=`API Error:(${url})${response.status} ${response.statusText}`
-        console.error(error_msg)
-    })
-    return resData
+    }).then(r => {
+        if (r.status === 200)
+            return r.json();
+        else return null;
+    });
 }
