@@ -1,7 +1,7 @@
 let GEframeElement = window.frameElement
 let widgetBlockEle = GEframeElement.parentElement.parentElement;
 let id = widgetBlockEle.getAttribute('data-node-id');
-let object = { model: 'GeogebraE',base64: '' }
+let object = { isOffline:'false', model: 'GeogebraE', base64: '' }
 let webGet = 0
 var observer = new PerformanceObserver(perf_observer);
 function LoadPlugin() {
@@ -21,7 +21,7 @@ function getNetworkRequests(
 }
 function printRequest(requests) {
     requests.map(request  => {
-        if(request.name.indexOf("www.geogebra.org") != -1){
+        if(request.name.indexOf("geogebra") != -1){
             webGet++
             document.getElementById("CoverGE_inf").innerHTML ='GeoGebraE : ' + 10*webGet + "%";
             if(webGet == 8){
@@ -37,11 +37,13 @@ function init() {
         if(r['custom-GeogebraE-model'] == null){
             request('/api/attr/setBlockAttrs', {id,
                 attrs: {
+                    "custom-GeogebraE-isOffline": object.isOffline.toString(),
                     "custom-GeogebraE-model": object.model,
                     "custom-GeogebraE-base64": object.base64,
                 }
             })
         }else{
+            object.isOffline = r['custom-GeogebraE-isOffline']
             object.model = r['custom-GeogebraE-model']
             object.base64 = r['custom-GeogebraE-base64']
         }
@@ -52,6 +54,7 @@ function save() {
     object.base64 = ggbApplet.getBase64()
     request('/api/attr/setBlockAttrs', {id,
         attrs: {
+            "custom-GeogebraE-isOffline": object.isOffline.toString(),
             "custom-GeogebraE-model": object.model,
             "custom-GeogebraE-base64": object.base64,
         }
@@ -98,9 +101,19 @@ function loadFromV2() {
         }
     })
 }
-// function load() {
-//     ggbApplet.setBase64(object.base64)
-// }
+function offline(isOffline, reload=false) {
+    object.isOffline = isOffline
+    save()
+    request('/api/notification/pushMsg', {
+        msg: "已切换到 Offline: " + isOffline,
+        timeout: 3000
+    })
+    if(reload){
+        setTimeout(() => {
+            document.location.reload()
+        }, 3000);
+    }
+}
 function resize() {
     var GE = document.getElementById("ggb-element")
     ggbApplet.setSize(GEframeElement.clientWidth, GEframeElement.clientHeight-35)
@@ -118,7 +131,10 @@ function RenderingGE(model) {
         "showMenuBar": true 
     };
     var applet = new GGBApplet(params, '5.0');
-    //applet.setHTML5Codebase('/widgets/GeogebraE/GeoGebra/HTML5/5.0/web3d/');
+    console.log("RenderingGE: ",object)
+    if(object.isOffline == "true"){
+        applet.setHTML5Codebase('/widgets/GeogebraE/geogebra/web3d/');
+    }
     applet.inject('ggb-element');
 }
 async function solveGet(response) {

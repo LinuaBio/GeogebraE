@@ -30,6 +30,23 @@ html, body {
   left: 50%; top: 50%;
   transform: translate(-50%, -50%);
 }
+#CoverGE_inf_offline {
+  color: white;
+  font-size: small;
+  font-style: oblique;
+  position: absolute;
+  margin: auto;
+  left: 90%; top: 90%;
+  transform: translate(-90%, -90%);
+  -webkit-user-select: none;
+  user-select: none;
+}
+#CoverGE_inf_offline:hover {
+  color:rgb(221, 221, 221)
+}
+#CoverGE_inf_offline:active {
+  color:rgb(157, 157, 157)
+}
 
 #menuBar {
   /* background: rgb(194, 194, 194); */
