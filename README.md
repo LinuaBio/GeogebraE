@@ -48,12 +48,14 @@ GeoGebra官方网站: https://www.geogebra.org
 
 ### 功能键:
 1. Model: 切换模式
-2. Function: 一些功能
-   1. loadFromV2: 从v0.0.2保存的数据加载，并重新保存为v0.0.3格式
-   2. online: 切换到在线模式
-   3. offline: 切换到离线模式(实验)，如果有些功能无法正常使用，请切换到在线版本
-3. Resize: 重新调整窗口大小。由于某些因素，没加入自动调整
-4. Save: 保存当前内容。若需保存为文件, 请使用左边栏的菜单, 加载文件同理
+2. Function: 功能菜单
+   1. ToImage: 将活动窗口转换为图片
+   2. InsetBlock: 将活动窗口转换为图片，并插入GeogebraE挂件块下方
+   3. loadFromV2: 从v0.0.2保存的数据加载，并重新保存为v0.0.3格式
+   4. online: 切换到在线模式
+   5. offline: 切换到离线模式(实验)，如果有些功能无法正常使用，请切换到在线版本
+   6. Reload: 重新加载挂件
+3. Save: 保存当前内容。若需保存为文件, 请使用左边栏的菜单, 加载文件同理
 
 # 关于离线版本👇
 
@@ -86,7 +88,9 @@ You are free to copy, distribute and transmit GeoGebra for non-commercial purpos
 
 # v0.0.5
 - 取消“Resize”功能按键
+- 加入“Reload”功能按键
 - 加入图片下载功能
+- 加入"把活动界面转换为图片并插入GeogebraE挂件块下方"
 
 # v0.0.4
 - 加入自动离线版本，如出现Bug可以切换为在线模式

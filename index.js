@@ -48,7 +48,6 @@ function init() {
             object.model = r['custom-GeogebraE-model']
             object.base64 = r['custom-GeogebraE-base64']
         }
-        console.log(object.base64)
         RenderingGE(object.model)
     })
 }
@@ -65,6 +64,9 @@ function save(inf = "保存成功") {
         msg: inf,
         timeout: 2000
     })
+}
+function reload() {
+    document.location.reload()
 }
 function loadFromV2() {
     solveGet(request('/api/storage/getLocalStorage')).then(r=>{
@@ -105,27 +107,36 @@ function loadFromV2() {
 }
 function offline(isOffline, reload=false) {
     object.isOffline = isOffline
-    save("Offline: " + isOffline)
     if(reload){
         setTimeout(() => {
-            document.location.reload()
+            reload()
         }, 3000);
+    }else{
+        save("Offline: " + isOffline)
     }
 }
-function resize() {
-    ggbApplet.recalculateEnvironments()	
-    // var GE = document.getElementById("ggb-element")
-    // ggbApplet.setSize(GEframeElement.clientWidth, GEframeElement.clientHeight-35)
-    // GE.style.height = GEframeElement.clientHeight-35
-    // GE.style.width = GEframeElement.clientWidth
-}
-function download() {
-    // ggbApplet.writePNGtoFile('myImage.png', 1, false)
+function download(getImage=false) {
     const imgUrl = `data:image/png;base64,${ggbApplet.getPNGBase64(1,false)}`
-    const a = document.createElement('a')
-    a.href = imgUrl
-    a.setAttribute('download', 'Geogebra')
-    a.click()
+    if(getImage){
+        return imgUrl
+    }else{
+        const image = document.createElement('a')
+        image.href = imgUrl
+        image.setAttribute('download', 'Geogebra')
+        image.click()
+    }
+}
+function InsetBlock() {
+    solveGet(request('/api/lute/html2BlockDOM', {
+        dom: `<img src="${download(true)}"/>`
+    })).then(r =>{
+        // console.log(r.match(RegExp(`(?<=assets/).*?(?=")`))[0])
+        request('/api/block/insertBlock', {
+            dataType: 'markdown',
+            data: `![](${r.match(RegExp(`assets/.*?(?=")`))[0]})`,
+            previousID: id
+        })
+    })
 }
 function RenderingGE(model) {
     object.model = model
@@ -138,7 +149,7 @@ function RenderingGE(model) {
         "showMenuBar": true 
     };
     var applet = new GGBApplet(params, '5.0');
-    console.log("RenderingGE: ",object)
+    // console.log("RenderingGE: ",object)
     if(object.isOffline == "true"){
         applet.setHTML5Codebase('/widgets/GeogebraE/geogebra/web3d/');
     }
