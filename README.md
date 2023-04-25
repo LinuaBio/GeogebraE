@@ -44,8 +44,6 @@ GeoGebra官方网站: https://www.geogebra.org
     <div class="GeogebraE_imgItem" style="background: url('https://gitee.com/biolinua/GeogebraE/raw/main/assets/preview_005.png');background-size: cover"></div>
 </div>
 
-注: 图片是v0.0.2的界面，由于与v0.0.3没太大区别，故沿用v0.0.2的预览图
-
 ### 功能键:
 1. Model: 切换模式
 2. Function: 功能菜单
