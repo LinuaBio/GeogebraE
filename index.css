@@ -4,21 +4,34 @@ html, body {
     width: 100%;
     height: 100%;
   }
-
+#GeogebraE {
+  display: none;
+}
 #CoverGE_body {
-  background:black;
+  /* background:black; */
   width: 100%;
   height: 100%;
   position: absolute;
   z-index: 1000;
-  /* display: none; */
+  /* border-radius: 20%; */
+  /* display: ''; */
 }
 #CoverGE {
-  width: 100%;
+  /* width: 100%;
   height: 100%;
   background: url('/widgets/GeogebraE/preview.png');
   background-size: cover;
   background-position: center;
+  filter: blur(5px); */
+
+  width: 80%;
+  height: 80%;
+  border-radius: 20px;
+  top: 50%;
+  left: 50%;
+  position: absolute;
+  transform: translate(-50%, -50%);
+  background: url(/widgets/GeogebraE/preview.png) center center / cover;
   filter: blur(5px);
 }
 #CoverGE_inf {
@@ -36,8 +49,8 @@ html, body {
   font-style: oblique;
   position: absolute;
   margin: auto;
-  left: 90%; top: 90%;
-  transform: translate(-90%, -90%);
+  left: 80%; top: 80%;
+  transform: translate(-80%, -80%);
   -webkit-user-select: none;
   user-select: none;
 }

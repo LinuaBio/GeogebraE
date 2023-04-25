@@ -17,6 +17,8 @@ GeoGebra官方网站: https://www.geogebra.org
 | 反馈地址: [GitHub-GeoGebraE](https://github.com/LinuaBio/GeogebraE/issues)
 | 反馈地址: [Gitee-GeoGebraE](https://gitee.com/biolinua/GeogebraE/issues)
 
+注：因为包含了离线包，包大小为19.7MB，所以该挂件大小达20.2MB
+
 # 预览&功能介绍
 
 <style>
@@ -81,6 +83,11 @@ https://download.geogebra.org/installers/5.0/geogebra-math-apps-bundle-5-0-772-0
 ### GeoGebra License information:
 
 You are free to copy, distribute and transmit GeoGebra for non-commercial purposes. For details see https://www.geogebra.org/license
+
+# v0.0.5
+- 取消“Resize”功能按键
+- 加入图片下载功能
+
 
 # v0.0.4
 - 加入自动离线版本，如出现Bug可以切换为在线模式

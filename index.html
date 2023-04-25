@@ -9,13 +9,13 @@
     <title>GeogebraE</title>
     <script src="/widgets/GeogebraE/deployggb.js"></script>
 </head>
-<body id="GeogebraE" onload="LoadPlugin()">
+<body onload="LoadPlugin()">
     <div id="CoverGE_body">
         <div id="CoverGE"></div>
         <div id="CoverGE_inf">Loading : 0%</div>
         <div id="CoverGE_inf_offline" onclick="offline(true, reload=true)">Change to offline</div>
     </div>
-    <div>
+    <div id="GeogebraE">
         <div id="menuBar">
             <div class="dropdown">
                 <div class="menuBarItem">Model</div>
@@ -32,12 +32,13 @@
             <div class="dropdown">
                 <div class="menuBarItem">Function</div>
                 <div class="dropdown-content">
+                    <div class="menuBarItem" onclick="download()">ToImage</div>
                     <div class="menuBarItem" onclick="loadFromV2()">loadFromV2</div>
                     <div class="dropdown-item" onclick="offline(false)">online</div>
                     <div class="dropdown-item" onclick="offline(true)">offline</div>
                 </div>
             </div>
-            <div class="menuBarItem" onclick="resize()">Resize</div>
+            <!-- <div class="menuBarItem" onclick="resize()">Resize</div> -->
             <div class="menuBarItem" onclick="save()">Save</div>
         </div>
         <div id="ggb-element"></div> 

@@ -27,6 +27,7 @@ function printRequest(requests) {
             if(webGet == 8){
                 observer.observe({ entryTypes: ["resource"] });
                 document.getElementById("CoverGE_body").style.display = 'none';
+                document.getElementById("GeogebraE").style.display = 'block';
                 ggbApplet.setBase64(object.base64)
             }
         }
@@ -47,10 +48,11 @@ function init() {
             object.model = r['custom-GeogebraE-model']
             object.base64 = r['custom-GeogebraE-base64']
         }
+        console.log(object.base64)
         RenderingGE(object.model)
     })
 }
-function save() {
+function save(inf = "保存成功") {
     object.base64 = ggbApplet.getBase64()
     request('/api/attr/setBlockAttrs', {id,
         attrs: {
@@ -60,7 +62,7 @@ function save() {
         }
     })
     request('/api/notification/pushMsg', {
-        msg: "保存成功",
+        msg: inf,
         timeout: 2000
     })
 }
@@ -103,11 +105,7 @@ function loadFromV2() {
 }
 function offline(isOffline, reload=false) {
     object.isOffline = isOffline
-    save()
-    request('/api/notification/pushMsg', {
-        msg: "已切换到 Offline: " + isOffline,
-        timeout: 3000
-    })
+    save("Offline: " + isOffline)
     if(reload){
         setTimeout(() => {
             document.location.reload()
@@ -115,10 +113,19 @@ function offline(isOffline, reload=false) {
     }
 }
 function resize() {
-    var GE = document.getElementById("ggb-element")
-    ggbApplet.setSize(GEframeElement.clientWidth, GEframeElement.clientHeight-35)
-    GE.style.height = GEframeElement.clientHeight-35
-    GE.style.width = GEframeElement.clientWidth
+    ggbApplet.recalculateEnvironments()	
+    // var GE = document.getElementById("ggb-element")
+    // ggbApplet.setSize(GEframeElement.clientWidth, GEframeElement.clientHeight-35)
+    // GE.style.height = GEframeElement.clientHeight-35
+    // GE.style.width = GEframeElement.clientWidth
+}
+function download() {
+    // ggbApplet.writePNGtoFile('myImage.png', 1, false)
+    const imgUrl = `data:image/png;base64,${ggbApplet.getPNGBase64(1,false)}`
+    const a = document.createElement('a')
+    a.href = imgUrl
+    a.setAttribute('download', 'Geogebra')
+    a.click()
 }
 function RenderingGE(model) {
     object.model = model
