@@ -65,7 +65,7 @@ function save(inf = "保存成功") {
         timeout: 2000
     })
 }
-function reload() {
+function reloadFunction() {
     document.location.reload()
 }
 function loadFromV2() {
@@ -109,7 +109,7 @@ function offline(isOffline, reload=false) {
     object.isOffline = isOffline
     if(reload){
         setTimeout(() => {
-            reload()
+            reloadFunction()
         }, 3000);
     }else{
         save("Offline: " + isOffline)
