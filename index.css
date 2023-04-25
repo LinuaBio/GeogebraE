@@ -60,7 +60,23 @@ html, body {
 #CoverGE_inf_offline:active {
   color:rgb(157, 157, 157)
 }
-
+#CoverGE_inf_reload {
+  color: white;
+  font-size: small;
+  font-style: oblique;
+  position: absolute;
+  margin: auto;
+  left: 80%; top: 70%;
+  transform: translate(-80%, -80%);
+  -webkit-user-select: none;
+  user-select: none;
+}
+#CoverGE_inf_reload:hover {
+  color:rgb(221, 221, 221)
+}
+#CoverGE_inf_reload:active {
+  color:rgb(157, 157, 157)
+}
 #menuBar {
   /* background: rgb(194, 194, 194); */
   width: 100%;
