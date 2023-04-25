@@ -88,7 +88,6 @@ You are free to copy, distribute and transmit GeoGebra for non-commercial purpos
 - 取消“Resize”功能按键
 - 加入图片下载功能
 
-
 # v0.0.4
 - 加入自动离线版本，如出现Bug可以切换为在线模式
 
