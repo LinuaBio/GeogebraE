@@ -1,7 +1,7 @@
 let GEframeElement = window.frameElement
 let widgetBlockEle = GEframeElement.parentElement.parentElement;
 let id = widgetBlockEle.getAttribute('data-node-id');
-let object = { isOffline:'false', model: 'GeogebraE', base64: '' }
+let object = { isOffline:'true', model: 'GeogebraE', base64: '' }
 let webGet = 0
 var observer = new PerformanceObserver(perf_observer);
 function LoadPlugin() {
@@ -108,6 +108,13 @@ function loadFromV2() {
 function offline(isOffline, reload=false) {
     object.isOffline = isOffline
     if(reload){
+        request('/api/attr/setBlockAttrs', {id,
+            attrs: {
+                "custom-GeogebraE-isOffline": object.isOffline.toString(),
+                "custom-GeogebraE-model": object.model,
+                "custom-GeogebraE-base64": object.base64,
+            }
+        })
         setTimeout(() => {
             reloadFunction()
         }, 3000);
