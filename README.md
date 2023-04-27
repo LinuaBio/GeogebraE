@@ -84,6 +84,9 @@ https://download.geogebra.org/installers/5.0/geogebra-math-apps-bundle-5-0-772-0
 
 You are free to copy, distribute and transmit GeoGebra for non-commercial purposes. For details see https://www.geogebra.org/license
 
+# v0.0.6
+- 将离线版本设为默认加载项
+
 # v0.0.5
 - 取消“Resize”功能按键
 - 加入“Reload”功能按键
