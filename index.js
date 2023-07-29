@@ -1728,7 +1728,7 @@ function create_fragment(ctx) {
   };
 }
 function instance($$self, $$props, $$invalidate) {
-  let { protyle } = $$props;
+  let { id } = $$props;
   let { self: self2 } = $$props;
   let geogebraBox = document.getElementsByClassName("b3-dialog__body")[0];
   function handleClick(e2) {
@@ -1737,7 +1737,7 @@ function instance($$self, $$props, $$invalidate) {
     const actions = {
       ToImage: () => download(false, () => {
       }),
-      InsetBlock: () => InsetBlock(protyle),
+      InsetBlock: () => InsetBlock(id),
       Save: () => Save()
     };
     if (actions[targetId]) {
@@ -1747,18 +1747,32 @@ function instance($$self, $$props, $$invalidate) {
     }
   }
   $$self.$$set = ($$props2) => {
-    if ("protyle" in $$props2)
-      $$invalidate(1, protyle = $$props2.protyle);
+    if ("id" in $$props2)
+      $$invalidate(1, id = $$props2.id);
     if ("self" in $$props2)
       $$invalidate(2, self2 = $$props2.self);
   };
-  return [handleClick, protyle, self2];
+  return [handleClick, id, self2];
 }
 class Geogebra_page extends SvelteComponent {
   constructor(options) {
     super();
-    init$1(this, options, instance, create_fragment, safe_not_equal, { protyle: 1, self: 2 });
+    init$1(this, options, instance, create_fragment, safe_not_equal, { id: 1, self: 2 });
   }
+}
+async function request$1(url, data) {
+  let response = await siyuan.fetchSyncPost(url, data);
+  let res = response.code === 0 ? response.data : null;
+  return res;
+}
+async function insertBlock(dataType, data, previousID) {
+  let data1 = {
+    dataType,
+    data,
+    previousID
+  };
+  let url = "/api/block/insertBlock";
+  return request$1(url, data1);
 }
 let object = { isOffline: "true", model: "GeogebraE", base64: "" };
 function init() {
@@ -1772,7 +1786,7 @@ function loadJSFile(jsUrl, callback) {
   }
   document.head.appendChild(script);
 }
-function openDialog(protyle) {
+function openDialog(id) {
   let dialog = new siyuan.Dialog({
     title: " ",
     content: `<div id="ggb-element"></div>`,
@@ -1783,7 +1797,7 @@ function openDialog(protyle) {
   new Geogebra_page({
     target: dialog.element.querySelector(".b3-dialog__header"),
     props: {
-      protyle,
+      id,
       self: this
     }
   });
@@ -1828,22 +1842,49 @@ function download(getImage = false, callback) {
     image.click();
   }
 }
-function InsetBlock(protyle) {
+function InsetBlock(id) {
   download(true, (imgUrl) => {
-    solveGet(request$1("/api/lute/html2BlockDOM", {
+    solveGet(request("/api/lute/html2BlockDOM", {
       dom: `<img src="${imgUrl}"/>`
     })).then((r2) => {
-      protyle.insert(`![](${r2.match(RegExp(`assets/.*?(?=")`))[0]})`);
+      insertBlock("markdown", `![](${r2.match(RegExp(`assets/.*?(?=")`))[0]})`, id);
     });
   });
 }
 function Save(self2) {
 }
+function getCursorPosition() {
+  var cursorPos = {
+    container: null,
+    position: 0
+  };
+  if (window.getSelection) {
+    var sel = window.getSelection();
+    if (sel.rangeCount > 0) {
+      var range = sel.getRangeAt(0);
+      cursorPos.container = range.startContainer;
+      cursorPos.position = range.startOffset;
+    }
+  }
+  return cursorPos;
+}
+function deleteCharacterBeforeCursor() {
+  var sel = window.getSelection();
+  if (sel.rangeCount > 0) {
+    var range = sel.getRangeAt(0);
+    var container = range.startContainer;
+    var offset = range.startOffset;
+    if (offset >= 0) {
+      range.setStart(container, offset);
+      range.deleteContents();
+    }
+  }
+}
 async function solveGet(response) {
   let r2 = await response;
   return r2 && r2.code === 0 ? r2.data : null;
 }
-async function request$1(url, data) {
+async function request(url, data) {
   return fetch(url, {
     body: JSON.stringify(data),
     method: "POST",
@@ -1856,20 +1897,6 @@ async function request$1(url, data) {
     else
       return null;
   });
-}
-async function request(url, data) {
-  let response = await siyuan.fetchSyncPost(url, data);
-  let res = response.code === 0 ? response.data : null;
-  return res;
-}
-async function updateBlock(dataType, data, id) {
-  let data1 = {
-    dataType,
-    data,
-    id
-  };
-  let url = "/api/block/updateBlock";
-  return request(url, data1);
 }
 class PluginSample extends siyuan.Plugin {
   async onload() {
@@ -1886,8 +1913,10 @@ class PluginSample extends siyuan.Plugin {
             </div>`,
       id: "openGeogebra",
       callback(protyle) {
-        updateBlock("markdown", "", protyle.protyle.breadcrumb.id);
-        openDialog(protyle);
+        console.log(getCursorPosition());
+        deleteCharacterBeforeCursor();
+        let id = protyle.protyle.breadcrumb.id;
+        openDialog(id);
       }
     }];
   }
