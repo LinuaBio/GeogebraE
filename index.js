@@ -1553,7 +1553,7 @@ function make_dirty(component, i2) {
   }
   component.$$.dirty[i2 / 31 | 0] |= 1 << i2 % 31;
 }
-function init$1(component, options, instance2, create_fragment2, not_equal, props, append_styles, dirty = [-1]) {
+function init(component, options, instance2, create_fragment2, not_equal, props, append_styles, dirty = [-1]) {
   const parent_component = current_component;
   set_current_component(component);
   const $$ = component.$$ = {
@@ -1633,7 +1633,7 @@ class SvelteComponent {
     }
   }
 }
-function create_fragment(ctx) {
+function create_fragment$1(ctx) {
   let div17;
   let div0;
   let t1;
@@ -1742,7 +1742,7 @@ function create_fragment(ctx) {
     }
   };
 }
-function instance($$self, $$props, $$invalidate) {
+function instance$1($$self, $$props, $$invalidate) {
   let { id } = $$props;
   let { self: self2 } = $$props;
   let fullScreen = false;
@@ -1767,7 +1767,8 @@ function instance($$self, $$props, $$invalidate) {
     if (actions[targetId]) {
       actions[targetId]();
     } else {
-      RenderingGE(targetId, geogebraBox.clientWidth, geogebraBox.clientHeight);
+      RenderingGE(targetId, geogebraBox.clientWidth, geogebraBox.clientHeight, () => {
+      });
     }
   }
   function FullScreen() {
@@ -1807,7 +1808,7 @@ function instance($$self, $$props, $$invalidate) {
 class Geogebra_page extends SvelteComponent {
   constructor(options) {
     super();
-    init$1(this, options, instance, create_fragment, safe_not_equal, { id: 1, self: 2 });
+    init(this, options, instance$1, create_fragment$1, safe_not_equal, { id: 1, self: 2 });
   }
 }
 async function request$1(url, data) {
@@ -1824,10 +1825,112 @@ async function insertBlock(dataType, data, previousID) {
   let url = "/api/block/insertBlock";
   return request$1(url, data1);
 }
-let object = { isOffline: "true", model: "GeogebraE", base64: "" };
-function init() {
-  RenderingGE(object.model, 760, 500);
+async function getWorkspaces() {
+  return request$1("/api/system/getWorkspaces", {});
 }
+function writeLSB(base64Data, message, callback) {
+  const img = new Image();
+  img.onload = function() {
+    const canvas = document.createElement("canvas");
+    canvas.width = img.width;
+    canvas.height = img.height;
+    const ctx = canvas.getContext("2d");
+    ctx.drawImage(img, 0, 0);
+    const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+    const binaryMessage = stringToBinary(message);
+    const maxMessageLength = calculateMaxMessageLength(imageData.width * imageData.height * 3);
+    if (binaryMessage.length > maxMessageLength) {
+      callback(new Error("隐藏信息超过最大容量"));
+      return;
+    }
+    const data = imageData.data;
+    for (let i2 = 0; i2 < binaryMessage.length; i2 += 3) {
+      let red = data[i2];
+      let green = data[i2 + 1];
+      let blue = data[i2 + 2];
+      if (i2 < binaryMessage.length) {
+        red = setLSB(red, binaryMessage[i2]);
+        green = setLSB(green, binaryMessage[i2 + 1]);
+        blue = setLSB(blue, binaryMessage[i2 + 2]);
+      }
+      data[i2] = red;
+      data[i2 + 1] = green;
+      data[i2 + 2] = blue;
+    }
+    ctx.putImageData(imageData, 0, 0);
+    const outputBase64 = canvas.toDataURL();
+    callback(null, outputBase64);
+  };
+  img.src = base64Data;
+}
+const base64Chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
+function stringToBinary(str) {
+  let isEqual = 0;
+  if (str[str.length - 1] == "=") {
+    isEqual = 1;
+    str = str.substring(0, str.length - 1);
+  }
+  str = `${isEqual}${str.length.toString().length}${str.length}` + str;
+  let binary = "";
+  for (const char of str) {
+    binary += base64Chars.indexOf(char).toString(2).padStart(6, "0");
+  }
+  return binary;
+}
+function readLSB(imagePath, callback) {
+  const img = new Image();
+  img.onload = function() {
+    const canvas = document.createElement("canvas");
+    canvas.width = img.width;
+    canvas.height = img.height;
+    const ctx = canvas.getContext("2d");
+    ctx.drawImage(img, 0, 0);
+    const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+    let str = "";
+    let binary = getBinary(imageData, 2);
+    let length = Number(base64Chars[parseInt(binary.substr(6, 6), 2)]) * 6 + 12;
+    binary = getBinary(imageData, 2 + length);
+    for (let i2 = 12; i2 < length; i2 += 6) {
+      str += base64Chars[parseInt(binary.substr(i2, 6), 2)];
+    }
+    let temp = length;
+    length = Number(str) * 6 + length;
+    binary = getBinary(imageData, length);
+    str = "";
+    for (let i2 = temp; i2 < length; i2 += 6) {
+      str += base64Chars[parseInt(binary.substr(i2, 6), 2)];
+    }
+    if (getBinary(imageData, 1) === "110101") {
+      str += "=";
+    }
+    callback(str);
+  };
+  img.src = imagePath;
+}
+function getBinary(imageData, end) {
+  end *= 6;
+  let binaryMessage = "";
+  const data = imageData.data;
+  for (let i2 = 0; i2 < end; i2 += 3) {
+    const red = data[i2];
+    const green = data[i2 + 1];
+    const blue = data[i2 + 2];
+    binaryMessage += getLSB(red);
+    binaryMessage += getLSB(green);
+    binaryMessage += getLSB(blue);
+  }
+  return binaryMessage;
+}
+function setLSB(byte, bit) {
+  return byte & 254 | bit;
+}
+function getLSB(byte) {
+  return byte & 1;
+}
+function calculateMaxMessageLength(pixelCount) {
+  return pixelCount * 3;
+}
+let object = { isOffline: "true", model: "GeogebraE", base64: "" };
 function loadJSFile(jsUrl, callback) {
   const script = document.createElement("script");
   script.src = jsUrl;
@@ -1843,7 +1946,6 @@ function openDialog(id) {
     width: this.isMobile ? "92vw" : "720px",
     height: this.isMobile ? "92vh" : "500px"
   });
-  init();
   new Geogebra_page({
     target: dialog.element.querySelector(".b3-dialog__header"),
     props: {
@@ -1851,18 +1953,20 @@ function openDialog(id) {
       self: this
     }
   });
-  let geogebraBox = document.getElementsByClassName(
-    "b3-dialog__body"
-  )[0];
-  geogebraBox.style.overflow = "hidden";
-  var observer = new ResizeObserver(function() {
-    if (ggbApplet !== null) {
-      ggbApplet.setSize(geogebraBox.clientWidth, geogebraBox.clientHeight);
-    }
+  RenderingGE(object.model, 760, 500, () => {
+    let geogebraBox = document.getElementsByClassName(
+      "b3-dialog__body"
+    )[0];
+    geogebraBox.style.overflow = "hidden";
+    var observer = new ResizeObserver(function() {
+      if (ggbApplet !== null) {
+        ggbApplet.setSize(geogebraBox.clientWidth, geogebraBox.clientHeight);
+      }
+    });
+    observer.observe(geogebraBox);
   });
-  observer.observe(geogebraBox);
 }
-function RenderingGE(model, width, height) {
+function RenderingGE(model, width, height, callback) {
   object.model = model;
   var params = {
     appName: model,
@@ -1880,24 +1984,53 @@ function RenderingGE(model, width, height) {
   setTimeout(function() {
     applet.inject("ggb-element");
   }, 10);
+  applet.setOnLoadCallback(callback());
 }
 function download(getImage = false, callback) {
   const imgUrl = `data:image/png;base64,${ggbApplet.getPNGBase64(1, false)}`;
-  if (getImage) {
-    callback(imgUrl);
-  } else {
-    const image = document.createElement("a");
-    image.href = imgUrl;
-    image.setAttribute("download", "Geogebra");
-    image.click();
-  }
+  writeLSB(imgUrl, ggbApplet.getBase64(), (err, outputBase64) => {
+    if (err) {
+      console.log(err);
+      return;
+    }
+    if (getImage) {
+      callback(outputBase64);
+    } else {
+      const image = document.createElement("a");
+      image.href = outputBase64;
+      image.setAttribute("download", "Geogebra");
+      image.click();
+    }
+  });
+}
+function saveFile(base64Data, callback) {
+  const fs = window.require("fs");
+  const matches = base64Data.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/);
+  const base64Content = matches[2];
+  const fileData = Buffer.from(base64Content, "base64");
+  getWorkspaces().then((r2) => {
+    let path = r2[0].path + "/data/plugins/GeogebraE/temp.png";
+    fs.writeFile(path, fileData, "binary", function(err) {
+      if (err) {
+        console.error("保存文件发生错误:", err);
+      } else {
+        console.log("文件已保存");
+        callback(path);
+      }
+    });
+  });
 }
 function InsetBlock(id) {
   download(true, (imgUrl) => {
-    solveGet(request("/api/lute/html2BlockDOM", {
-      dom: `<img src="${imgUrl}"/>`
-    })).then((r2) => {
-      insertBlock("markdown", `![](${r2.match(RegExp(`assets/.*?(?=")`))[0]})`, id);
+    saveFile(imgUrl, (path) => {
+      solveGet(request("/api/lute/html2BlockDOM", {
+        dom: `<img src="${path}"/>`
+      })).then((r2) => {
+        console.log(r2);
+        setTimeout(() => {
+          insertBlock("markdown", `![](${r2.match(RegExp(`assets/.*?(?=")`))[0]})`, id);
+        }, 100);
+      });
     });
   });
 }
@@ -1933,11 +2066,78 @@ async function request(url, data) {
       return null;
   });
 }
+function create_fragment(ctx) {
+  let button;
+  let mounted;
+  let dispose;
+  return {
+    c() {
+      button = element("button");
+      button.innerHTML = `<div class="b3-menu__icon">G</div> 
+  <span class="b3-menu__label">用Geogebra打开</span>`;
+      attr(button, "class", "b3-menu__item");
+    },
+    m(target, anchor) {
+      insert(target, button, anchor);
+      if (!mounted) {
+        dispose = listen(
+          button,
+          "click",
+          /*openGeogebra*/
+          ctx[0]
+        );
+        mounted = true;
+      }
+    },
+    p: noop,
+    i: noop,
+    o: noop,
+    d(detaching) {
+      if (detaching)
+        detach(button);
+      mounted = false;
+      dispose();
+    }
+  };
+}
+function instance($$self, $$props, $$invalidate) {
+  let { imageMenu } = $$props;
+  let { detail } = $$props;
+  let scr = detail.element.getElementsByTagName("img")[0].src;
+  function openGeogebra() {
+    $$invalidate(1, imageMenu.style.display = "none", imageMenu);
+    openDialog(detail.protyle);
+    readLSB(scr, (data) => {
+      console.log(data);
+      setTimeout(
+        () => {
+          ggbApplet.setBase64(data);
+        },
+        2500
+      );
+    });
+    $$invalidate(1, imageMenu.style.display = "display", imageMenu);
+  }
+  $$self.$$set = ($$props2) => {
+    if ("imageMenu" in $$props2)
+      $$invalidate(1, imageMenu = $$props2.imageMenu);
+    if ("detail" in $$props2)
+      $$invalidate(2, detail = $$props2.detail);
+  };
+  return [openGeogebra, imageMenu, detail];
+}
+class Image_menu extends SvelteComponent {
+  constructor(options) {
+    super();
+    init(this, options, instance, create_fragment, safe_not_equal, { imageMenu: 1, detail: 2 });
+  }
+}
 class PluginSample extends siyuan.Plugin {
   async onload() {
     loadJSFile("/plugins/GeogebraE/deployggb.js", () => {
       console.log("JavaScript 文件已加载");
     });
+    this.eventBus.on("open-menu-image", this.ImageMenuEvent);
     const self2 = this;
     self2.protyleSlash = [{
       filter: ["geogebra", "dkge", "打开"],
@@ -1955,17 +2155,18 @@ class PluginSample extends siyuan.Plugin {
     }];
   }
   async onunload() {
+    this.eventBus.off("open-menu-image", this.ImageMenuEvent);
   }
-  // private ImageMenuEvent({ detail }: any) {
-  //     console.log(detail);
-  //     var imageMenu = document.getElementsByClassName("b3-menu__items")[0];
-  //     new ImageMenu({
-  //         target: imageMenu,
-  //         props: {
-  //             imageMenu: imageMenu as HTMLElement,
-  //             detail: detail 
-  //         }
-  //     });
-  // }
+  ImageMenuEvent({ detail }) {
+    console.log(detail);
+    var imageMenu = document.getElementsByClassName("b3-menu__items")[0];
+    new Image_menu({
+      target: imageMenu,
+      props: {
+        imageMenu,
+        detail
+      }
+    });
+  }
 }
 module.exports = PluginSample;
