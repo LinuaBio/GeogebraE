@@ -49,6 +49,7 @@ GeoGebra官方网站: https://www.geogebra.org
 2. Function: 功能菜单
    1. ToImage: 将活动窗口转换为图片
    2. InsetBlock: 将活动窗口转换为图片，并插入GeogebraE挂件块下方
+3. FullScreen: 全屏
 
 # License 😶‍🌫️
 
@@ -59,10 +60,15 @@ GeoGebra官方网站: https://www.geogebra.org
 
 You are free to copy, distribute and transmit GeoGebra for non-commercial purposes. For details see https://www.geogebra.org/license
 
+### 其他
+
+为了缩减离线包的大小，语言包目前只支持中文与英文，如果有其他语言的需要请下载[GeoGebra语言包](https://download.geogebra.org/package/geogebra-math-apps-bundle)，解压并找到‘GeoGebra\HTML5\5.0\web3d\js\properties_keys_**.js’，星号代表语言，例如zh-CN是中文。找到你需要的语言，将其复制到该插件文件夹相同js目录下。
+
 # v0.0.7
-- 更改为'插件'版本
-- 加入'/'指令，调用GeogebraE
+- 更改为“插件”版本
+- 加入“/”指令，调用GeogebraE
 - 优化体验
+- 加入“FullScreen”功能
 
 # v0.0.6
 - 将离线版本设为默认加载项

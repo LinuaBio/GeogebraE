@@ -1634,7 +1634,7 @@ class SvelteComponent {
   }
 }
 function create_fragment(ctx) {
-  let div16;
+  let div17;
   let div0;
   let t1;
   let div10;
@@ -1646,11 +1646,13 @@ function create_fragment(ctx) {
   let div11;
   let t19;
   let div14;
+  let t23;
+  let div16;
   let mounted;
   let dispose;
   return {
     c() {
-      div16 = element("div");
+      div17 = element("div");
       div0 = element("div");
       div0.textContent = "Geogebra";
       t1 = space();
@@ -1674,6 +1676,9 @@ function create_fragment(ctx) {
       div14 = element("div");
       div14.innerHTML = `<div class="dropdown-item" id="ToImage">ToImage</div> 
       <div class="dropdown-item" id="InsetBlock">InsetBlock</div>`;
+      t23 = space();
+      div16 = element("div");
+      div16.textContent = "FullScreen";
       set_style(div0, "padding-right", "18px");
       attr(div1, "class", "menuBarItem");
       attr(div1, "id", "Model");
@@ -1683,21 +1688,25 @@ function create_fragment(ctx) {
       attr(div11, "id", "Function");
       attr(div14, "class", "dropdown-content");
       attr(div15, "class", "dropdown");
-      attr(div16, "id", "menuBar");
+      attr(div16, "class", "menuBarItem");
+      attr(div16, "id", "FullScreen");
+      attr(div17, "id", "menuBar");
     },
     m(target, anchor) {
-      insert(target, div16, anchor);
-      append(div16, div0);
-      append(div16, t1);
-      append(div16, div10);
+      insert(target, div17, anchor);
+      append(div17, div0);
+      append(div17, t1);
+      append(div17, div10);
       append(div10, div1);
       append(div10, t3);
       append(div10, div9);
-      append(div16, t17);
-      append(div16, div15);
+      append(div17, t17);
+      append(div17, div15);
       append(div15, div11);
       append(div15, t19);
       append(div15, div14);
+      append(div17, t23);
+      append(div17, div16);
       if (!mounted) {
         dispose = [
           listen(
@@ -1711,6 +1720,12 @@ function create_fragment(ctx) {
             "click",
             /*handleClick*/
             ctx[0]
+          ),
+          listen(
+            div16,
+            "click",
+            /*handleClick*/
+            ctx[0]
           )
         ];
         mounted = true;
@@ -1721,7 +1736,7 @@ function create_fragment(ctx) {
     o: noop,
     d(detaching) {
       if (detaching)
-        detach(div16);
+        detach(div17);
       mounted = false;
       run_all(dispose);
     }
@@ -1730,7 +1745,15 @@ function create_fragment(ctx) {
 function instance($$self, $$props, $$invalidate) {
   let { id } = $$props;
   let { self: self2 } = $$props;
+  let fullScreen = false;
   let geogebraBox = document.getElementsByClassName("b3-dialog__body")[0];
+  let toolbarHeight = document.getElementById("toolbar").offsetHeight.toString();
+  let position = {
+    top: "0",
+    left: "0",
+    width: "100%",
+    height: "100%"
+  };
   function handleClick(e2) {
     e2.preventDefault();
     const targetId = e2.target.id;
@@ -1738,12 +1761,39 @@ function instance($$self, $$props, $$invalidate) {
       ToImage: () => download(false, () => {
       }),
       InsetBlock: () => InsetBlock(id),
-      Save: () => Save()
+      Save: () => Save(),
+      FullScreen: () => FullScreen()
     };
     if (actions[targetId]) {
       actions[targetId]();
     } else {
       RenderingGE(targetId, geogebraBox.clientWidth, geogebraBox.clientHeight);
+    }
+  }
+  function FullScreen() {
+    let element2 = document.getElementsByClassName("b3-dialog__container")[0];
+    if (fullScreen) {
+      element2.style.cssText = `
+            height: ${position.height};
+            width: ${position.width};
+            top: ${position.top};
+            left: ${position.left};
+          `;
+      fullScreen = false;
+    } else {
+      position = {
+        height: element2.style.height,
+        width: element2.style.width,
+        top: element2.style.top,
+        left: element2.style.left
+      };
+      element2.style.cssText = `
+            top: ${toolbarHeight}px;
+            left: 0;
+            width: 100%;
+            height: 100%;
+          `;
+      fullScreen = true;
     }
   }
   $$self.$$set = ($$props2) => {
@@ -1853,21 +1903,6 @@ function InsetBlock(id) {
 }
 function Save(self2) {
 }
-function getCursorPosition() {
-  var cursorPos = {
-    container: null,
-    position: 0
-  };
-  if (window.getSelection) {
-    var sel = window.getSelection();
-    if (sel.rangeCount > 0) {
-      var range = sel.getRangeAt(0);
-      cursorPos.container = range.startContainer;
-      cursorPos.position = range.startOffset;
-    }
-  }
-  return cursorPos;
-}
 function deleteCharacterBeforeCursor() {
   var sel = window.getSelection();
   if (sel.rangeCount > 0) {
@@ -1913,7 +1948,6 @@ class PluginSample extends siyuan.Plugin {
             </div>`,
       id: "openGeogebra",
       callback(protyle) {
-        console.log(getCursorPosition());
         deleteCharacterBeforeCursor();
         let id = protyle.protyle.breadcrumb.id;
         openDialog(id);
