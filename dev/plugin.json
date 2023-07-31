@@ -1,0 +1,21 @@
+{
+  "name": "GeogebraE",
+  "author": "BioLinua",
+  "url": "https://github.com/LinuaBio/GeogebraE",
+  "version": "0.0.7",
+  "minAppVersion": "2.9.7",
+  "backends": ["all"],
+  "frontends": ["all"],
+  "displayName": {
+    "en_US": "Geogebra For SiYuan",
+    "zh_CN": "Geogebra嵌入程序"
+  },
+  "description": {
+    "en_US": "Use Geogebra in Si-yuan note",
+    "zh_CN": "让你在思源笔记中使用Geogebra"
+  },
+  "readme": {
+    "en_US": "README.md",
+    "zh_CN": "README_zh_CN.md"
+  }
+}
