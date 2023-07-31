@@ -149,7 +149,7 @@ function InsetBlock(id: string) {
         })
     })
 }
-function Save(self: Plugin) {
+function Save() {
     // const xmlString = ggbApplet.getXML();
     // self.saveData()
 }

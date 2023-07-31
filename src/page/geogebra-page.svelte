@@ -19,7 +19,7 @@
     const actions = {
       ToImage: () => download(false, () => {}),
       InsetBlock: () => InsetBlock(id),
-      Save: () => Save(self),
+      Save: () => Save(),
       FullScreen: () => FullScreen(),
     };
 

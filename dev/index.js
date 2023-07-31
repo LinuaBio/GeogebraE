@@ -2039,7 +2039,7 @@ function InsetBlock(id) {
     });
   });
 }
-function Save(self2) {
+function Save() {
 }
 function deleteCharacterBeforeCursor() {
   var sel = window.getSelection();
