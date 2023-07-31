@@ -2,7 +2,7 @@
   "name": "GeogebraE",
   "author": "BioLinua",
   "url": "https://github.com/LinuaBio/GeogebraE",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "minAppVersion": "2.9.7",
   "backends": ["all"],
   "frontends": ["all"],
