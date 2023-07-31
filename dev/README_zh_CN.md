@@ -45,11 +45,20 @@ GeoGebra官方网站: https://www.geogebra.org
 </div>
 
 ### 功能键:
+#### Geogebra窗口功能键
 1. Model: 切换模式
 2. Function: 功能菜单
-   1. ToImage: 将活动窗口转换为图片
+   1. ToImage: 将活动窗口转换为图片，并弹出下载窗口
    2. InsetBlock: 将活动窗口转换为图片，并插入GeogebraE挂件块下方
 3. FullScreen: 全屏
+
+#### '/'指令功能键
+1. 打开GeogebraE
+
+#### 图片右键菜单功能键
+1. 用GeogebraE打开: 将隐写入geogebra文件信息的图片用geogebra打开. 你可以直接打开用"ToImage"转换的图片, 也可以打开用"InsetBlock"转换的图片
+
+**此外，该插件的逻辑是保存图片优先，如果出现任何问题，如程序崩溃，意外退出等，你可以在assets中找到“InsetBlock”的图片，该图片已经过隐写术处理，文件名以“geogebra”为前缀**
 
 # License 😶‍🌫️
 
@@ -69,6 +78,7 @@ You are free to copy, distribute and transmit GeoGebra for non-commercial purpos
 ## v0.0.8
 - “InsetBlock”功能增强，使用LSB隐写术，直接将Geogebra文件保存到
    图片中。但值得注意的是，该功能会让图片大小增大
+- 用“ToImage”功能键下载的图片，同样使用LSB隐写术
 - 在图片的右键菜单中加入“用GeogebraE打开”，该功能适用于使用LSB隐写术保存的图片，
 可以用Geogebra直接编辑图片的内容
 

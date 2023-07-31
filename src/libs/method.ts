@@ -117,7 +117,7 @@ function saveFile(base64Data: string, callback) {
 
     // 将二进制数据写入文件
     getWorkspaces().then(r => {
-        let path = r[0].path + '/data/plugins/GeogebraE/temp.png'
+        let path = r[0].path + '/data/plugins/GeogebraE/geogebra.png'
         fs.writeFile(path, fileData, 'binary', function (err) {
             if (err) {
                 console.error('保存文件发生错误:', err);

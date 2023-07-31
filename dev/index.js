@@ -2012,7 +2012,7 @@ function saveFile(base64Data, callback) {
   const base64Content = matches[2];
   const fileData = Buffer.from(base64Content, "base64");
   getWorkspaces().then((r2) => {
-    let path = r2[0].path + "/data/plugins/GeogebraE/temp.png";
+    let path = r2[0].path + "/data/plugins/GeogebraE/geogebra.png";
     fs.writeFile(path, fileData, "binary", function(err) {
       if (err) {
         console.error("保存文件发生错误:", err);

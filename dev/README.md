@@ -45,11 +45,20 @@ GeoGebra官方网站: https://www.geogebra.org
 </div>
 
 ### 功能键:
+#### Geogebra窗口功能键
 1. Model: 切换模式
 2. Function: 功能菜单
-   1. ToImage: 将活动窗口转换为图片
+   1. ToImage: 将活动窗口转换为图片，并弹出下载窗口
    2. InsetBlock: 将活动窗口转换为图片，并插入GeogebraE挂件块下方
 3. FullScreen: 全屏
+
+#### '/'指令功能键
+1. 打开GeogebraE
+
+#### 图片右键菜单功能键
+1. 用GeogebraE打开: 将隐写入geogebra文件信息的图片用geogebra打开. 你可以直接打开用"ToImage"转换的图片, 也可以打开用"InsetBlock"转换的图片
+
+**此外，该插件的逻辑是保存图片优先，如果出现任何问题，如程序崩溃，意外退出等，你可以在assets中找到“InsetBlock”的图片，该图片已经过隐写术处理，文件名以“geogebra”为前缀**
 
 # License 😶‍🌫️
 
@@ -64,34 +73,43 @@ You are free to copy, distribute and transmit GeoGebra for non-commercial purpos
 
 为了缩减离线包的大小，语言包目前只支持中文与英文，如果有其他语言的需要请下载[GeoGebra语言包](https://download.geogebra.org/package/geogebra-math-apps-bundle)，解压并找到‘GeoGebra\HTML5\5.0\web3d\js\properties_keys_**.js’，星号代表语言，例如zh-CN是中文。找到你需要的语言，将其复制到该插件文件夹相同js目录下。
 
-# v0.0.7
+# 更新日志
+
+## v0.0.8
+- “InsetBlock”功能增强，使用LSB隐写术，直接将Geogebra文件保存到
+   图片中。但值得注意的是，该功能会让图片大小增大
+- 用“ToImage”功能键下载的图片，同样使用LSB隐写术
+- 在图片的右键菜单中加入“用GeogebraE打开”，该功能适用于使用LSB隐写术保存的图片，
+可以用Geogebra直接编辑图片的内容
+
+## v0.0.7
 - 更改为“插件”版本
 - 加入“/”指令，调用GeogebraE
 - 优化体验
 - 加入“FullScreen”功能
 
-# v0.0.6
+## v0.0.6
 - 将离线版本设为默认加载项
 
-# v0.0.5
+## v0.0.5
 - 取消“Resize”功能按键
 - 加入“Reload”功能按键
 - 加入图片下载功能
 - 加入"把活动界面转换为图片并插入GeogebraE挂件块下方"
 
-# v0.0.4
+## v0.0.4
 - 加入自动离线版本，如出现Bug可以切换为在线模式
 
-# v0.0.3
+## v0.0.3
 - 加入对于在线使用的网络请求结果显示
 - 更换数据存储方案
 - 移除“Evaluator”模式
 - 移除“Load”按钮
 
-# v0.0.2
+## v0.0.2
 - 修复单个笔记使用多个GeogebraE无法保存的问题
 - 修复离线版本不能使用的问题
 - 更换preview图
 
-# v0.0.1
+## v0.0.1
 - 简单的将Geogebra嵌入到思源挂件中
