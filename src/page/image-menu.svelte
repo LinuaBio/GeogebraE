@@ -18,5 +18,5 @@
 
 <button class="b3-menu__item" on:click={openGeogebra}>
   <div class="b3-menu__icon">G</div>
-  <span class="b3-menu__label">用Geogebra打开</span>
+  <span class="b3-menu__label">用GeogebraE打开</span>
 </button>

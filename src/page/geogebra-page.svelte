@@ -1,7 +1,6 @@
 <script lang="ts">
   import { RenderingGE, download, InsetBlock, Save } from "@/libs/method";
   export let id;
-  export let self;
   let fullScreen = false;
   let geogebraBox = document.getElementsByClassName("b3-dialog__body")[0];
   let toolbarHeight = document

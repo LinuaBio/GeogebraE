@@ -1744,7 +1744,6 @@ function create_fragment$1(ctx) {
 }
 function instance$1($$self, $$props, $$invalidate) {
   let { id } = $$props;
-  let { self: self2 } = $$props;
   let fullScreen = false;
   let geogebraBox = document.getElementsByClassName("b3-dialog__body")[0];
   let toolbarHeight = document.getElementById("toolbar").offsetHeight.toString();
@@ -1800,15 +1799,13 @@ function instance$1($$self, $$props, $$invalidate) {
   $$self.$$set = ($$props2) => {
     if ("id" in $$props2)
       $$invalidate(1, id = $$props2.id);
-    if ("self" in $$props2)
-      $$invalidate(2, self2 = $$props2.self);
   };
-  return [handleClick, id, self2];
+  return [handleClick, id];
 }
 class Geogebra_page extends SvelteComponent {
   constructor(options) {
     super();
-    init(this, options, instance$1, create_fragment$1, safe_not_equal, { id: 1, self: 2 });
+    init(this, options, instance$1, create_fragment$1, safe_not_equal, { id: 1 });
   }
 }
 async function request$1(url, data) {
@@ -1949,8 +1946,7 @@ function openDialog(id, callback) {
   new Geogebra_page({
     target: dialog.element.querySelector(".b3-dialog__header"),
     props: {
-      id,
-      self: this
+      id
     }
   });
   RenderingGE(object.model, 760, 500, (CheckedGgbApplet) => {
@@ -2033,7 +2029,7 @@ function InsetBlock(id) {
       solveGet(request("/api/lute/html2BlockDOM", {
         dom: `<img src="${path}"/>`
       })).then((r2) => {
-        console.log("insertBlock!!!", id);
+        console.log("insertBlock", id);
         insertBlock("markdown", `![](${r2.match(RegExp(`assets/.*?(?=")`))[0]})`, id);
       });
     });
@@ -2079,7 +2075,7 @@ function create_fragment(ctx) {
     c() {
       button = element("button");
       button.innerHTML = `<div class="b3-menu__icon">G</div> 
-  <span class="b3-menu__label">用Geogebra打开</span>`;
+  <span class="b3-menu__label">用GeogebraE打开</span>`;
       attr(button, "class", "b3-menu__item");
     },
     m(target, anchor) {

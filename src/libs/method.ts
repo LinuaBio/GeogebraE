@@ -1,8 +1,8 @@
 import {
-    Plugin, Dialog
+    Dialog
 } from "siyuan";
 import GeogebraPage from '@/page/geogebra-page.svelte'
-import { getWorkspaces, insertBlock, insertLocalAssets } from "@/api";
+import { getWorkspaces, insertBlock } from "@/api";
 import { writeLSB } from "./lsb";
 
 let object = { isOffline: "true", model: "GeogebraE", base64: "" };
@@ -27,7 +27,6 @@ function openDialog(id: string, callback) {
         target: dialog.element.querySelector(".b3-dialog__header"),
         props: {
             id: id,
-            self: this,
         }
     });
 
@@ -100,7 +99,6 @@ function download(getImage = false, callback) {
         if (getImage) {
             callback(outputBase64);
         } else {
-
             const image = document.createElement('a');
             image.href = outputBase64;
             image.setAttribute('download', 'Geogebra');
@@ -136,7 +134,7 @@ function InsetBlock(id: string) {
             solveGet(request('/api/lute/html2BlockDOM', {
                 dom: `<img src="${path}"/>`
             })).then(r => {
-                console.log("insertBlock!!!", id)
+                console.log("insertBlock", id)
                 // console.log(r)
                 // protyle.insert(`![](${r.match(RegExp(`assets/.*?(?=")`))[0]})`)
                 // getWorkspaces().then(path=>{

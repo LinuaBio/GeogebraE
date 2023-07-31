@@ -64,34 +64,42 @@ You are free to copy, distribute and transmit GeoGebra for non-commercial purpos
 
 为了缩减离线包的大小，语言包目前只支持中文与英文，如果有其他语言的需要请下载[GeoGebra语言包](https://download.geogebra.org/package/geogebra-math-apps-bundle)，解压并找到‘GeoGebra\HTML5\5.0\web3d\js\properties_keys_**.js’，星号代表语言，例如zh-CN是中文。找到你需要的语言，将其复制到该插件文件夹相同js目录下。
 
-# v0.0.7
+# 更新日志
+
+## v0.0.8
+- “InsetBlock”功能增强，使用LSB隐写术，直接将Geogebra文件保存到
+   图片中。但值得注意的是，该功能会让图片大小增大
+- 在图片的右键菜单中加入“用GeogebraE打开”，该功能适用于使用LSB隐写术保存的图片，
+可以用Geogebra直接编辑图片的内容
+
+## v0.0.7
 - 更改为“插件”版本
 - 加入“/”指令，调用GeogebraE
 - 优化体验
 - 加入“FullScreen”功能
 
-# v0.0.6
+## v0.0.6
 - 将离线版本设为默认加载项
 
-# v0.0.5
+## v0.0.5
 - 取消“Resize”功能按键
 - 加入“Reload”功能按键
 - 加入图片下载功能
 - 加入"把活动界面转换为图片并插入GeogebraE挂件块下方"
 
-# v0.0.4
+## v0.0.4
 - 加入自动离线版本，如出现Bug可以切换为在线模式
 
-# v0.0.3
+## v0.0.3
 - 加入对于在线使用的网络请求结果显示
 - 更换数据存储方案
 - 移除“Evaluator”模式
 - 移除“Load”按钮
 
-# v0.0.2
+## v0.0.2
 - 修复单个笔记使用多个GeogebraE无法保存的问题
 - 修复离线版本不能使用的问题
 - 更换preview图
 
-# v0.0.1
+## v0.0.1
 - 简单的将Geogebra嵌入到思源挂件中
