@@ -49,7 +49,7 @@ GeoGebra官方网站: https://www.geogebra.org
 1. Model: 切换模式
 2. Function: 功能菜单
    1. ToImage: 将活动窗口转换为图片，并弹出下载窗口
-   2. InsetBlock: 将活动窗口转换为图片，并插入GeogebraE挂件块下方
+   2. InsetBlock: 将活动窗口转换为图片，并插入当前块下方
 3. FullScreen: 全屏
 
 #### '/'指令功能键

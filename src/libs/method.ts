@@ -62,7 +62,6 @@ function RenderingGE(model, width, height, callback) {
     setTimeout(function () {
         applet.inject("ggb-element");
     }, 10);
-    console.log(applet)
 
     let ggbAppletReadyInterval = setInterval(function () {
         //@ts-ignore
@@ -116,8 +115,8 @@ function saveFile(base64Data: string, callback) {
     const fileData = Buffer.from(base64Content, 'base64');
 
     // 将二进制数据写入文件
-    getWorkspaces().then(r => {
-        let path = r[0].path + '/data/plugins/GeogebraE/geogebra.png'
+    getCurrentWorkSpace(r=>{
+        let path = r + '/data/plugins/GeogebraE/geogebra.png'
         fs.writeFile(path, fileData, 'binary', function (err) {
             if (err) {
                 console.error('保存文件发生错误:', err);
@@ -126,6 +125,15 @@ function saveFile(base64Data: string, callback) {
                 callback(path)
             }
         });
+    })
+}
+function getCurrentWorkSpace(callback){
+    getWorkspaces().then(r=>{
+        r.forEach(element=>{
+            if(element.path.includes(document.getElementsByClassName("toolbar__text")[0].textContent)){
+                callback(element.path)
+            }
+        })
     })
 }
 function InsetBlock(id: string) {

@@ -1981,7 +1981,6 @@ function RenderingGE(model, width, height, callback) {
   setTimeout(function() {
     applet.inject("ggb-element");
   }, 10);
-  console.log(applet);
   let ggbAppletReadyInterval = setInterval(function() {
     if (typeof ggbApplet !== "undefined" && typeof ggbApplet.setBase64 === "function") {
       clearInterval(ggbAppletReadyInterval);
@@ -2011,14 +2010,23 @@ function saveFile(base64Data, callback) {
   const matches = base64Data.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/);
   const base64Content = matches[2];
   const fileData = Buffer.from(base64Content, "base64");
-  getWorkspaces().then((r2) => {
-    let path = r2[0].path + "/data/plugins/GeogebraE/geogebra.png";
+  getCurrentWorkSpace((r2) => {
+    let path = r2 + "/data/plugins/GeogebraE/geogebra.png";
     fs.writeFile(path, fileData, "binary", function(err) {
       if (err) {
         console.error("保存文件发生错误:", err);
       } else {
         console.log("文件已保存");
         callback(path);
+      }
+    });
+  });
+}
+function getCurrentWorkSpace(callback) {
+  getWorkspaces().then((r2) => {
+    r2.forEach((element2) => {
+      if (element2.path.includes(document.getElementsByClassName("toolbar__text")[0].textContent)) {
+        callback(element2.path);
       }
     });
   });
